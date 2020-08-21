@@ -14,14 +14,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String user, password;
+  String username, password;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('login'),
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: RadialGradient(
@@ -57,9 +54,9 @@ class _LoginState extends State<Login> {
         child: RaisedButton(
           color: MyStyle().darkColor,
           onPressed: () {
-            print('user = $user pass = $password');
-            if (user == null ||
-                user.isEmpty ||
+            print('user = $username pass = $password');
+            if (username == null ||
+                username.isEmpty ||
                 password == null ||
                 password.isEmpty) {
               print('กรุณากรอกข้อมูล');
@@ -77,7 +74,7 @@ class _LoginState extends State<Login> {
       );
 
       Future<Null> loginserve()async{
-        String url = 'http://192.168.1.68/UngPHP3/UngPHP3/getUserWhereUserMaster.php?User=$user&isAdd=true';
+        String url = 'http://192.168.1.68/UngPHP3/UngPHP3/getUserWhereUserMaster.php?isAdd=true&username=$username';
         try {
           Response response = await Dio().get(url);
           print(response);
@@ -103,7 +100,9 @@ class _LoginState extends State<Login> {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString('id', userdata.id);
         preferences.setString('Name', userdata.name);
-        preferences.setString('User', userdata.user);
+        preferences.setString('User', userdata.username);
+        preferences.setString('Pass', userdata.password);
+        preferences.setString('Status', userdata.status);
 
         
         MaterialPageRoute route = MaterialPageRoute(builder: (context) => my,);
@@ -113,7 +112,7 @@ class _LoginState extends State<Login> {
   Widget userForm() => Container(
         width: 250.0,
         child: TextField(
-          onChanged: (value) => user = value.trim(),
+          onChanged: (value) => username = value.trim(),
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.account_box, color: MyStyle().darkColor),
             labelStyle: TextStyle(color: MyStyle().darkColor),

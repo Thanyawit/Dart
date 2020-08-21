@@ -26,6 +26,7 @@ class MyStyle {
     );
   }
 
+
   Container showlogo2() {
     return Container(
       width: 120.0,
